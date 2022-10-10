@@ -95,7 +95,7 @@ int sh( int argc, char **argv, char **envp )
 	      }
 	    }
       else if(strcmp(command, "list") == 0){
-	      if(args[1] == NULL){ //0 holds command
+	      if(args[1] == NULL){
 	      list(pwd);
 	      }else{
 	        int i = 1;
@@ -292,18 +292,12 @@ char *where(char *command, struct pathelement *pathlist )
   DIR *dr;
   struct dirent *de;
   strcpy(CAT_BUFFER, "");
-  //Go though all our PATH_ENVs
   while (current != NULL) {
     char *path = current->element;
-    //vars for looking though the directories
     dr = opendir(path);
-    // printf("Dir closed");
     if(dr){
-    //in each path, look at all of it's files
       while ((de = readdir(dr)) != NULL) {
-      //for each file in the directory, check if it's the one we want
         if (strcmp(de->d_name, command) == 0) {
-        //If it is add it to the buffer
           strcat(CAT_BUFFER, path);
           strcat(CAT_BUFFER, "/");
           strcat(CAT_BUFFER, de->d_name);
@@ -316,7 +310,6 @@ char *where(char *command, struct pathelement *pathlist )
   }
     int len = (int) strlen(CAT_BUFFER);
     char *p = (char *) malloc(len);
-    //replace last '\n' with null terminator
     CAT_BUFFER[len - 1] = '\0';
     strcpy(p, CAT_BUFFER);
     return p;
